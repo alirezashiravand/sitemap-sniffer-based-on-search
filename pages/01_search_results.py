@@ -6,7 +6,7 @@ import urllib
 import pandas as pd
 from requests_html import HTML
 from requests_html import HTMLSession
-
+import pandas as pd
 
 # function for starting request
 def get_source(url):
@@ -67,3 +67,9 @@ query=st.text_input(label='your query',placeholder='please insert your query')
 results=st.button('get result',on_click=google_search(query),disabled=query)
 
 st.success(results)
+
+
+# Building the table dataset
+results_df = pd.DataFrame(results)
+results_df
+st.dataframe(results_df)
