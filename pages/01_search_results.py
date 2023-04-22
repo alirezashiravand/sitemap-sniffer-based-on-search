@@ -8,28 +8,12 @@ from requests_html import HTML
 from requests_html import HTMLSession
 import pandas as pd
 
-# function for starting request
-def get_source(url):
-    try:
-        session = HTMLSession()
-        response = session.get(url)
-        return response 
-    except requests.exceptions.RequestException as e:
-        print(e)
-
-
-
-# Scraping Title, Link and Text
 def get_results(query):
     
     query = urllib.parse.quote_plus(query)
     response = get_source("https://www.google.com/search?q=" + query)
     
     return response
-
-
-# parse results
-
 
 def parse_results(response):
     
@@ -54,22 +38,23 @@ def parse_results(response):
         
     return output
 
-
-# function for getting results from serp
 def google_search(query):
     response = get_results(query)
     return parse_results(response)
 
 
-query=st.text_input(label='your query',placeholder='please insert your query')
+def get_source(url):
+    try:
+        session = HTMLSession()
+        response = session.get(url)
+        return response 
+    except requests.exceptions.RequestException as e:
+        print(e)
+
+query=st.text_input(label="your query",placeholder='please insert query in this input')
+getResults_Btn_submit=st.button(label='get results')
+
+if getResults_Btn_submit:
+    st.write(google_search(query))
 
 
-results=st.button('get result',on_click=google_search(query),disabled=query)
-
-st.success(results)
-
-
-# Building the table dataset
-results_df = pd.DataFrame(results)
-results_df
-st.dataframe(results_df)
